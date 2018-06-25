@@ -77,6 +77,32 @@ function displayGifs(topicResults) {
 	});
 }
 
+// Animates or freezes the gifs
+function animate() {
+	// Store the current state
+	var currentState = $(this).attr("data-state");
+	var newSRC = "";
+	var newState = "";
+
+	switch (currentState) {
+		// If the image is still, store the animate url
+		case "still":
+			newSRC = $(this).attr("data-animate");
+			newState = "animated";
+			break;
+		case "animated":
+			// If the image is animated, store the still url
+			newSRC = $(this).attr("data-still");
+			newState = "still";
+			break;
+	}
+
+	// Set the new value to the src attribute
+	$(this).attr("src", newSRC);
+	// Set the new state of the image
+	$(this).attr("data-state", newState);
+}
+
 // =========== MAIN PROCESSES ===========
 
 // When page loads, display topics buttons
@@ -87,5 +113,8 @@ $("#add-topic-btn").click(addTopic);
 
 // When a topic button is clicked, grab gifs
 $("#buttons-section").on("click", ".btn", runQuery);
+
+// When a image is clicked, animate or freeze the image
+$("#gifs-section").on("click", ".gif-image", animate);
 
 });
