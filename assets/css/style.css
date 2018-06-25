@@ -1,0 +1,20 @@
+#gifs-section {
+	text-align: center;
+}
+
+#gifs-section div {
+	width: min-content;
+	display: inline-block;
+	margin: 10px;
+}
+
+#buttons-section .btn {
+	margin: 0px 5px;
+	padding-left: 40px;
+	padding-right: 40px;
+}
+
+#gifs-section p {
+	margin-bottom: 2px;
+	text-align: left;
+}
