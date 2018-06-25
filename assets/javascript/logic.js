@@ -37,11 +37,12 @@ function addTopic() {
 
 }
 
+// Runs AJAX GET request of topic chosen
 function runQuery() {
 	var topicChosen = $(this).val();
-	console.log(topicChosen);
 
 	var queryURL = "https://api.giphy.com/v1/gifs/search?";
+
 	// jQuery's $.param() allows parameters to be parsed to the queryURL
 	// in other words, it will add &api_key=dc6zaTOxFJmzC, etc to the queryURL
 	queryURL += $.param({
@@ -50,10 +51,30 @@ function runQuery() {
 		"limit": 5
 	});
 
+	// Make ajax request and display gifs once a response is returned
 	$.ajax({url: queryURL, method: "GET"}).done(function(response) {
-		console.log(response);
+		displayGifs(response);
 	});
 
+}
+
+// Display the gifs
+function displayGifs(topicResults) {
+	// Empty the gifs result section
+	$("#gifs-section").empty();
+
+	// Loop through the gifResults in order to display each gif and its rating
+	topicResults.data.forEach(function(gif) {
+		var rating = $("<p>").text("Rating: " + gif.rating);
+
+		var image = $("<img>").attr("src", gif.images.fixed_height_still.url);
+		image.addClass("gif-image");
+		image.attr("data-still", gif.images.fixed_height_still.url);
+		image.attr("data-animate", gif.images.fixed_height.url);
+		image.attr("data-state", "still");
+		
+		$("#gifs-section").append($("<div>").append(rating).append(image));
+	});
 }
 
 // =========== MAIN PROCESSES ===========
@@ -64,6 +85,7 @@ displayButtons();
 // When the form is filled out, add new topic to the topics list
 $("#add-topic-btn").click(addTopic);
 
+// When a topic button is clicked, grab gifs
 $("#buttons-section").on("click", ".btn", runQuery);
 
 });
