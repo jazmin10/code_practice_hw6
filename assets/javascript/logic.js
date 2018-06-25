@@ -13,7 +13,10 @@ function displayButtons() {
 	topics.forEach(function(topic) {
 		var topicButton = $("<button>").attr("value", topic);
 		topicButton.addClass("btn btn-info btn-lg");
-		topicButton.text(topic);
+
+		// We use replace because we don't want the buttons to show the plus sign
+		// for our topics with more than one word
+		topicButton.text(topic.replace(/\+/g, " "));
 
 		$("#buttons-section").append(topicButton);
 	});
